@@ -1,0 +1,8 @@
+div {
+    display: flex;
+    justify-content: center;
+}
+
+div button:hover {
+    cursor: pointer;
+}
