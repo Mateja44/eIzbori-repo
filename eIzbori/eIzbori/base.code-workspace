@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "base",
+			"path": "../../../eIzbori-repo-main/eIzbori/base"
+		},
+		{
+			"name": "templates",
+			"path": "../../../eIzbori-repo-main/eIzbori/templates"
+		},
+		{
+			"name": "eIzbori",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
