@@ -20,8 +20,8 @@ class RegionalniCentar(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    def __int__(self):
+        return self.broj
     
     class Meta:
         verbose_name_plural = "Regionalni Centri"
@@ -33,7 +33,7 @@ class MaticnaSekcija(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.regionalnicentar
     
     class Meta:
         verbose_name_plural = "Maticna Sekcija"
@@ -42,11 +42,11 @@ class Kandidati(models.Model):
     #user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     ime = models.CharField(max_length=100)
     prezime = models.CharField(max_length=100)
-    maticna_sekcija = models.IntegerField(default=0)
-    regionalni_centar = models.IntegerField(default=0)
+    maticna_sekcija = models.CharField(max_length=100)
+    regionalni_centar = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.ime
     
     class Meta:
         verbose_name_plural = "Kandidati"
