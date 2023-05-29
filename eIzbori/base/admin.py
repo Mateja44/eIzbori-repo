@@ -1,11 +1,13 @@
 from django.contrib import admin
-from .models import MaticnaSekcija, RegionalniCentar, IzbornaKomisija
+from .models import MaticnaSekcija, RegionalniCentar, IzbornaKomisija, Izbori, Kandidovanje
 
 # Register your models here.     
 
 admin.site.register(MaticnaSekcija)
 admin.site.register(RegionalniCentar)
 admin.site.register(IzbornaKomisija)
+admin.site.register(Izbori)
+admin.site.register(Kandidovanje)
 
 from django.contrib import admin
 from django.urls import path
