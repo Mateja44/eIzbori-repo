@@ -39,12 +39,18 @@ class is_within(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     history = HistoricalRecords()
 
-class votes(models.Model):
+
+class ballot(models.Model):
     voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="voter") # defines who placed the vote
-    votee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="votee") # defines who the vote is for
-    votetype = models.BooleanField() #determines whether the vote is placed for candidacy (False) or final voting (True)
-    history = HistoricalRecords()
+    votes = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="votes") # defines who the vote is for
+    votetype = models.BooleanField() #determines whether the vote is placed for candidacy (False) or final voting (True) if user does NOT have a vote for current votetype then they can vote.
+    history = HistoricalRecords()  
+    
 
 class election(models.Model):
     date = models.DateTimeField()
     name_of_election = models.CharField(max_length=50)
+
+class key_of(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    key = models.CharField(max_length=20)
