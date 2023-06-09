@@ -12,15 +12,15 @@ project_dir = "eIzbori/Process"
 sys.path.append(project_dir)
 
 
-file = "Resources/Sheet1.csv"
+file = "Resources/Sheet3.csv"
 data = csv.reader(open(file),delimiter =",")
 finlist = {}
 for row in data:
-    if row[0] != "Name":
-        if row[2]  not in finlist:
-            finlist[row[2]] = []
-        if row[3] not in finlist[row[2]]:
-            finlist[row[2]].append(row[3])
+    if row[0] != "first_name":
+        if row[3]  not in finlist:
+            finlist[row[3]] = []
+        if row[4] not in finlist[row[3]]:
+            finlist[row[3]].append(row[4])
 
 # populates database with local and regional centers and links them together
 list = list(dict.keys(finlist))
@@ -39,48 +39,21 @@ for item in list:
 data = csv.reader(open(file),delimiter =",")
 Usermodel = get_user_model()
 for row in data:
-    if row[0] != "Name":
+    if row[0] != "first_name":
         model = Usermodel()
         model.first_name = row[0]
-        model.set_password(raw_password=row[4])
-        model.email = row[5]
+        model.last_name = row[1]
+        model.set_password(raw_password=row[5])
+        model.email = row[2]
+        model.licence = row[5]
+        model.votestatus = 2
         model.save()
-        localcent = row[3]
-    
+        
+        regionalcent = regional_center.objects.get(name = row[3])
+        localcent = regionalcent.local_center_set.get(name = row[4])
         isw = is_within()
         isw.user = model
         print(localcent)
-        isw.local_center = local_center.objects.get(name = localcent)
+        isw.local_center = localcent
         isw.save()
-
-
-
-
-
-
-
-
-
-# userlist = []
-# passlist = []
-# for row in data:
-#     if row[0] != "Name":
-#         userlist.append(row[0])
-#         passlist.append(row[4])
-
-# for x in range(len(userlist)):
-#     user = User.objects.create_user(username=f"{str(userlist[x])}",
-#                                     password='what')
-#     user.save()
-
-#  # WHY WONT THIS FUCKING WORK!?!?!
-#     # user = User.objects.create_user(username=f"{str(row[0])}",
-#     #                                 password=f'{str(row[4])}')
-    
-
-
-# isw = is_within()
-
-
-
 

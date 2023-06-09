@@ -1,0 +1,7 @@
+from django.urls import include, path
+from . import views
+
+urlpatterns = [
+    path('Voting/<str:key>/', views.voting_view, name = 'Voting'),
+    path('Commission/', views.Commission_view, name = 'Commission' )
+]

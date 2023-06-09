@@ -1,0 +1,17 @@
+{% extends 'voting.html' %}
+{% block ballot  %}
+<form method = "POST">
+
+    {% csrf_token %}
+    {% for votee,voteeinfo in votees.items %}
+
+        <input type = "checkbox" value = "{{ voteeinfo.id }}" name = "checkbox number {{forloop.counter}}"> {{voteeinfo.name}}
+        <br>
+
+    {% endfor %}
+
+    <button type = "submit"> Submit </button>
+</form>
+
+{% endblock  %}
+

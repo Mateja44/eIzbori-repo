@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<table>
+
+{% for region,local in votes.items %}
+
+<tr>
+    <th> {{region.name}} </th>
+
+
+    {% for local,user in local.items %}
+    
+    <th> {{local.name}} </th>
+
+    {% for user,value in user.items %}
+    
+    <td>
+        {{user.first_name}} {{user.last_name}} : {{value}}
+    </td>
+
+    {% endfor %}
+    
+    {% endfor %}
+</tr>
+
+
+
+
+{% endfor %}
+
+</table>
+{% endblock content %}
+
