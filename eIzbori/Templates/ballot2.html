@@ -1,7 +1,19 @@
 {% extends 'voting.html' %}
 
+{% comment %} {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            {% if message.tags == 'warning' %}
+                <li class="warning">{{ message }}</li>
+            {% else %}
+                <li>{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %} {% endcomment %}
 
 {% block ballot  %}
+
 <form method = "POST">
 
     {% csrf_token %}

@@ -42,20 +42,6 @@ class is_within(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     history = HistoricalRecords()
 
-    # TODO change ballot model, remove voter field, replace with different way of keeping track of who voted for each phase.
-class ballot(models.Model):
-    # voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="voter") # defines who placed the vote
-    votes = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="votes") # defines who the vote is for
-    votetype = models.BooleanField() #determines whether the vote is placed for candidacy (False) or final voting (True) if user does NOT have a vote for current votetype then they can vote.
-    history = HistoricalRecords() #a field that allows lookup of previous versions of the model
-    
-
-    #### IMPORTANT!!!! ####
-    # No, Django Simple History will not work with instances that were deleted by deleting the entire table. When you delete a table, all records and their corresponding history records (if using Django Simple History) are permanently removed from the database.
-    # Django Simple History relies on the Django ORM and database triggers to capture changes to model instances. When you delete a table, the triggers associated with that table, which are responsible for recording history, are also removed.
-    # To benefit from the history tracking provided by Django Simple History, you need to delete individual instances using the ORM's delete() method or another appropriate method. Deleting individual instances triggers the necessary mechanisms to record the deletion in the history log.
-    # If you delete the entire table, you will lose the ability to retrieve the history of the deleted instances using Django Simple History.
-
 class election(models.Model):
     CHOICES = (
         (0, 'Candidacy Phase'),
@@ -66,7 +52,12 @@ class election(models.Model):
     name_of_election = models.CharField(max_length=50)
     Phase = models.IntegerField(choices=CHOICES)
 
-
+class ballot(models.Model):
+    # voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="voter") # defines who placed the vote
+    votes = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="votes") # defines who the vote is for
+    votetype = models.BooleanField() #determines whether the vote is placed for candidacy (False) or final voting (True) if user does NOT have a vote for current votetype then they can vote.
+    election = models.ForeignKey(election, on_delete=models.CASCADE ) #Ballot model got changed to keep track of which election it is tied to instead of keeping track of previous versions of the ballot table.
+    
 class key_of(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     key = models.CharField(max_length=20)

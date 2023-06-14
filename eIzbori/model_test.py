@@ -17,13 +17,32 @@ from Process.models import *
 #     newballot.votes = usermodel.objects.get(id = id)
 #     newballot.votetype = 0
 #     newballot.save()
+elections = election.objects.latest('id')
+date = elections.date
+votes = {}
+regions = [item for item in regional_center.objects.all()]
+for region in regions:
+    votes[region] = {}
+    locals = [item for item in region.local_center_set.all()]
+    for local in locals:
+        votes[region][local] = {}
+        Sample = [item for item in local.is_within_set.all()]
+        HistoricalSet= []
+        for item in Sample:
+            HistoricalSet.append(item.history.as_of(date))
+        members = [ item.user for item in HistoricalSet ]
+        for member in members:
+            count = ballot.objects.filter(votes = member,election = 2).count()
+            votes[region][local][member] = count
+print(votes)
 
-
-elec = election()
-elec.Phase = 1
-elec.date = datetime.datetime.now().date()
-elec.name_of_election = "test"
-elec.save()
+# elections = [item for item in election.objects.all()]
+# print(elections)
+# elec = election()
+# elec.Phase = 1
+# elec.date = datetime.datetime.now().date()
+# elec.name_of_election = "test"
+# elec.save()
 
 
 # votes = {}
