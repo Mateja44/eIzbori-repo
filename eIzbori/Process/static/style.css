@@ -1,0 +1,32 @@
+div fieldset {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 25%;
+}
+
+p {
+    color: blue;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#custom-select {
+    width: 200px;
+    height: 25px;
+}
+
+#message {
+    color: red;
+    font-weight: bolder;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.login {
+    text-align: right;
+}

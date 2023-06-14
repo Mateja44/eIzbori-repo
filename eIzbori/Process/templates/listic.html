@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glasacki Listic</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <div>
+        <fieldset>
+            <legend>Glasacki Listic</legend>
+            <form action="{% url 'send_email' licence=licence %}" method="POST">
+                {% csrf_token %}
+                Ime: {{ first_name }}<br><br>
+                Prezime: {{ last_name }}<br><br>
+                Jedinstveni broj listica: {{ broj }}<br><br>
+                Vas regionalni centar je: {{ regionalni }}<br><br>
+                Vasa maticna sekcija je: {{ maticni }}<br><br>
+                <b>IZABERITE MINIMUM JEDNOG, A MAKSIMUM 5 KANDIDATA</b> <br><br>
+                <div>
+                    <form method="GET" action="{% url 'listic' %}">
+                        <input type="text" name="q" placeholder="Search Teams..." id="search">
+                    </form>
+                </div>
+                Pretrazite kandidata po imenu i licenci: <select name="kandidati" id="custom-select" onchange="removeOption(this.value, 'custom-select', 'selected-name')">
+                    {% for name in full_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %} 
+                  </select>&nbsp
+                  <button type="button" onclick="removeLastSelectedValue()" style= "cursor:pointer">Ukloni poslednji izbor</button>
+                  <br><br>
+                Izabrali ste: <br><br>
+                <div id="selected-name"></div>
+                <br>
+                Saglasan sam sa uslovima <input type="checkbox" id="Glas" name="SlazemSe" value="Saglasan"> <br><br>
+                <input type="button" value="Potvrdi" onclick="redirectToHvalaPage()" style= "cursor:pointer"> <br><br>
+                <input type="button" value="Glasaj / Kandiduj" style= "cursor:pointer">
+            </form>    
+        </fieldset>
+    </div>
+    <br><br><br>
+    <p>
+*** NAPOMENA ZA PRAVILNO POPUNJAVANJE KANDIDACIONOG OBRASCA***<br><br>
+
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error quis velit natus dignissimos est rem iusto, ratione necessitatibus minima vitae voluptatum ipsum iure dolores culpa at quidem, temporibus saepe nobis!
+Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab quia esse nobis saepe ad necessitatibus, laudantium iusto sapiente repudiandae impedit deleniti eveniet veritatis autem! Sit vitae quaerat accusantium voluptatem repellendus.
+Quos, laudantium. Dolore laudantium assumenda delectus quisquam velit blanditiis et praesentium numquam, quis corporis dolor at, similique eveniet voluptate eum nisi, vitae officiis quaerat cum dolorum? Beatae atque ut fuga!
+</p>
+<script>
+    var selectedValues = [];
+
+    function removeOption(value, selectId, divId) {
+        var selectElement = document.getElementById(selectId);
+        var options = selectElement.options;
+        var divElement = document.getElementById(divId);
+
+        // Add the selected value to the array
+        selectedValues.push(value);
+
+        // Remove the selected option from the select element
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === value) {
+                options[i].remove();
+                break;
+            }
+        }
+        // Update the selected names in the div element
+        divElement.innerHTML += value + ", ";
+    }
+    function removeLastSelectedValue() {
+        var divElement = document.getElementById('selected-name');
+        var selectElement = document.getElementById('custom-select');
+        var options = selectElement.options;
+        var lastSelectedValue = selectedValues.pop();
+
+        // Add the removed option back to the select element
+        var option = document.createElement("option");
+        option.value = lastSelectedValue;
+        option.text = lastSelectedValue;
+        selectElement.add(option);
+
+        // Update the selected names in the div element
+        divElement.innerHTML = selectedValues.join(", ") + " ";
+    }
+    function redirectToHvalaPage() {
+        var checkbox = document.getElementById('Glas');
+        if (selectedValues.length === 0 || selectedValues.length >= 3 || !checkbox.checked) {
+            alert("Molim vas izaberite minimum jednog, a maksimum pet kandidata i stiklirajte saglasnost");
+        } else {
+            document.forms[0].submit(); // Manually submit the form
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login/Register
+{% endblock %}
+
+{% block content %}
+<div>
+    <form method="POST" action="">
+        {% comment %} listic/{{licence}} {% endcomment %}
+        {% csrf_token %}
+        <h3>Dobrodosli {{ first_name }} {{ last_name }}</h3>
+        <h3>Licenca broj: {{ licence }}</h3>
+        <label>Unesite Vasu email adresu: </label>
+        <input type="email" name="email" placeholder="Enter Email...">
+        <label>Unesite Vas Password: </label>
+        <input type="password" name="password" placeholder="Enter Password...">
+        <input type="submit" value="Login">
+    </form>
+</div>
+{% endblock %}
